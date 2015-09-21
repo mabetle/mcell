@@ -2,20 +2,19 @@ package wxlsx
 
 import (
 	"database/sql"
-	"github.com/tealeg/xlsx"
-	"github.com/github.com/mabetle/mcore"
+	"github.com/mabetle/mcore"
 	"github.com/mabetle/mmsg"
+	"github.com/tealeg/xlsx"
 )
-
 
 // SqlRowsToExcel
 // disable locale
-func SqlRowsToExcel(sheetName string, 
-	rows *sql.Rows, 
-	include string, 
+func SqlRowsToExcel(sheetName string,
+	rows *sql.Rows,
+	include string,
 	exclude string) (*xlsx.File, error) {
-	
-		return SqlRowsToExcelWithLocale(sheetName,"", rows,include,exclude,"",false)
+
+	return SqlRowsToExcelWithLocale(sheetName, "", rows, include, exclude, "", false)
 
 }
 
@@ -26,23 +25,22 @@ func SqlRowsToExcel(sheetName string,
 //	rows
 //	include
 //	exclude
-//	locale 
+//	locale
 //	enableLocale
-func SqlRowsToExcelWithLocale(sheetName string, 
+func SqlRowsToExcelWithLocale(sheetName string,
 	tableName string,
-	rows *sql.Rows, 
-	include string, 
+	rows *sql.Rows,
+	include string,
 	exclude string,
 	locale string,
 	enableLocale bool) (*xlsx.File, error) {
 
-		
 	defer rows.Close()
 
 	if sheetName == "" {
 		sheetName = "Sheet1"
 	}
-	
+
 	file := xlsx.NewFile()
 	sheet := file.AddSheet(sheetName)
 
@@ -59,9 +57,9 @@ func SqlRowsToExcelWithLocale(sheetName string,
 		}
 		cell := row.AddCell()
 		// colName to locale label
-		
+
 		if enableLocale && locale != "" {
-			colName = mmsg.GetTableColumnLabel(locale, tableName,colName)
+			colName = mmsg.GetTableColumnLabel(locale, tableName, colName)
 		}
 
 		cell.Value = colName

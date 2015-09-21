@@ -1,8 +1,8 @@
 package wxlsx
 
 import (
+	"github.com/mabetle/mcore"
 	"github.com/tealeg/xlsx"
-	"github.com/github.com/mabetle/mcore"
 )
 
 type Sheet struct {
@@ -72,10 +72,10 @@ func (sheet *Sheet) GetHeaderRowValues() (vs []string) {
 
 // GetColNameIndex
 // -1 means not found.
-func (sheet *Sheet) GetColNameIndex(colName string) int{
-	names:=sheet.GetHeaderRowValues()
-	for i, name := range names  {
-		if mcore.NewString(colName).IsEqualIgnoreCase(name){
+func (sheet *Sheet) GetColNameIndex(colName string) int {
+	names := sheet.GetHeaderRowValues()
+	for i, name := range names {
+		if mcore.NewString(colName).IsEqualIgnoreCase(name) {
 			return i
 		}
 	}
@@ -83,20 +83,19 @@ func (sheet *Sheet) GetColNameIndex(colName string) int{
 }
 
 // GetCellValueByRowIndexColName
-func (sheet *Sheet) GetCellValueByRowIndexColName(rowIndex int, colName string) string{
-	colIndex:= sheet.GetColNameIndex(colName)
-	return sheet.GetRowColValue(rowIndex,colIndex,"")
+func (sheet *Sheet) GetCellValueByRowIndexColName(rowIndex int, colName string) string {
+	colIndex := sheet.GetColNameIndex(colName)
+	return sheet.GetRowColValue(rowIndex, colIndex, "")
 }
 
 // GetCellFloat64ByRowIndexColName
-func (sheet *Sheet) GetCellFloat64ByRowIndexColName(rowIndex int, colName string) float64{
-	v:=sheet.GetCellValueByRowIndexColName(rowIndex,colName)
+func (sheet *Sheet) GetCellFloat64ByRowIndexColName(rowIndex int, colName string) float64 {
+	v := sheet.GetCellValueByRowIndexColName(rowIndex, colName)
 	return mcore.NewString(v).ToFloat64NoError()
 }
 
 // GetCellIntByRowIndexColName
-func (sheet *Sheet) GetCellIntByRowIndexColName(rowIndex int, colName string) int{
-	v:=sheet.GetCellValueByRowIndexColName(rowIndex,colName)
+func (sheet *Sheet) GetCellIntByRowIndexColName(rowIndex int, colName string) int {
+	v := sheet.GetCellValueByRowIndexColName(rowIndex, colName)
 	return mcore.NewString(v).ToIntNoError()
 }
-

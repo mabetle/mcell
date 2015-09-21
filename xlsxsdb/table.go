@@ -3,7 +3,7 @@ package xlsxsdb
 import (
 	"fmt"
 	"github.com/mabetle/mcell/wxlsx"
-	"github.com/github.com/mabetle/mcore/msdb"
+	"github.com/mabetle/mcore/msdb"
 	"github.com/mabetle/mlog"
 )
 

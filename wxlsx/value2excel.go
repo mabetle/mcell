@@ -2,31 +2,31 @@ package wxlsx
 
 import (
 	"fmt"
-	"github.com/tealeg/xlsx"
-	"github.com/github.com/mabetle/mcore"
+	"github.com/mabetle/mcore"
 	"github.com/mabetle/mmsg"
+	"github.com/tealeg/xlsx"
 	"reflect"
 )
 
 // ValueToExcel
-func ValueToExcel(sheetName string, 
-	rows interface{}, 
-	include string, 
+func ValueToExcel(sheetName string,
+	rows interface{},
+	include string,
 	exclude string) (*xlsx.File, error) {
-	// no  locale	
-	return ValueToExcelWithLocale(sheetName,rows,include,exclude,"",false)
+	// no  locale
+	return ValueToExcelWithLocale(sheetName, rows, include, exclude, "", false)
 }
 
 // ValueToExcelWithLocale
 // rows should be slice type.
-func ValueToExcelWithLocale(sheetName string, 
-	rows interface{}, 
-	include string, 
+func ValueToExcelWithLocale(sheetName string,
+	rows interface{},
+	include string,
 	exclude string,
 	locale string,
 	enableLocale bool) (*xlsx.File, error) {
-	
-	// check args 
+
+	// check args
 	if sheetName == "" {
 		sheetName = "Sheet1"
 	}
@@ -43,7 +43,7 @@ func ValueToExcelWithLocale(sheetName string,
 	fs := mcore.GetUsedArrayFields(rows, include, exclude)
 	// add header
 	row := sheet.AddRow()
-	
+
 	// f means fields
 	for _, f := range fs {
 		cell := row.AddCell()
@@ -53,7 +53,7 @@ func ValueToExcelWithLocale(sheetName string,
 		}
 		cell.Value = f
 	}
-	
+
 	// add data
 	for i := 0; i < v.Len(); i++ {
 		rowValue := v.Index(i).Interface()

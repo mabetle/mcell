@@ -2,7 +2,7 @@ package wxlsx
 
 import (
 	"fmt"
-	"github.com/github.com/mabetle/mcore"
+	"github.com/mabetle/mcore"
 )
 
 // utils

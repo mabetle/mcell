@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/mabetle/mcell/xlsxsdb"
-	"github.com/github.com/mabetle/mcore/msdb"
-	"github.com/github.com/mabetle/mcore"
+	"github.com/mabetle/mcore/msdb"
+	"github.com/mabetle/mcore"
 	"github.com/mabetle/mcell/wxlsx"
 	"github.com/mabetle/mlog"
 )

@@ -1,6 +1,9 @@
 package wxlsx
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/mabetle/mcore"
 	"github.com/tealeg/xlsx"
 )
 
@@ -29,18 +32,48 @@ func ArrayToExcel(sheetName string, data [][]string) (*xlsx.File, error) {
 	return file, nil
 }
 
+func GetMapKeys(m map[string]interface{}) (keys []string) {
+	for k, _ := range m {
+		keys = append(keys, k)
+	}
+	return
+}
+
 // JsonToExcel
-//
-func JsonToExcel(sheetName string, jsData []byte) (*xlsx.File, error) {
+// jsData should contain a array
+func JsonToExcel(sheetName string, jsData []byte, include string, exclude string) (*xlsx.File, error) {
+	var rows []map[string]interface{}
+	err := json.Unmarshal(jsData, &rows)
+	if err != nil {
+		return nil, err
+	}
+	if len(rows) < 1 {
+		return nil, fmt.Errorf("No datas found")
+	}
+	headMap := rows[0]
+	allKeys := GetMapKeys(headMap)
+	keys := mcore.GetFieldsUsed(allKeys, include, exclude)
+
 	if sheetName == "" {
 		sheetName = "Sheet1"
 	}
-
 	file := xlsx.NewFile()
 	sheet := file.AddSheet(sheetName)
+	// add header row
+	row := sheet.AddRow()
+	for _, key := range keys {
+		cell := row.AddCell()
+		cell.Value = key
+	}
 
-	sheet.AddRow()
-
+	// add datas
+	for _, row := range rows {
+		sheetRow := sheet.AddRow()
+		for _, key := range keys {
+			cell := sheetRow.AddCell()
+			value := row[key]
+			cell.SetValue(value)
+		}
+	}
 	return file, nil
-
 }

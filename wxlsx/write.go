@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/mabetle/mcore"
+	"github.com/mabetle/mmsg"
 	"github.com/tealeg/xlsx"
 )
 
@@ -41,7 +42,13 @@ func GetMapKeys(m map[string]interface{}) (keys []string) {
 
 // JsonToExcel
 // jsData should contain a array
-func JsonToExcel(sheetName string, jsData []byte, include string, exclude string) (*xlsx.File, error) {
+func JsonToExcel(
+	sheetName string,
+	jsData []byte,
+	include string,
+	exclude string,
+	locale string,
+) (*xlsx.File, error) {
 	var rows []map[string]interface{}
 	err := json.Unmarshal(jsData, &rows)
 	if err != nil {
@@ -61,9 +68,10 @@ func JsonToExcel(sheetName string, jsData []byte, include string, exclude string
 	sheet := file.AddSheet(sheetName)
 	// add header row
 	row := sheet.AddRow()
+
 	for _, key := range keys {
 		cell := row.AddCell()
-		cell.Value = key
+		cell.Value = mmsg.GetTableColumnLabel(locale, "", key)
 	}
 
 	// add datas

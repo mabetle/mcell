@@ -20,8 +20,10 @@ func ArrayToExcel(sheetName string, data [][]string) (*xlsx.File, error) {
 
 	file := xlsx.NewFile()
 
-	sheet := file.AddSheet(sheetName)
-
+	sheet, err := file.AddSheet(sheetName)
+	if err != nil {
+		return nil, err
+	}
 	for _, rowData := range data {
 		row := sheet.AddRow()
 		for _, colData := range rowData {
@@ -65,7 +67,10 @@ func JsonToExcel(
 		sheetName = "Sheet1"
 	}
 	file := xlsx.NewFile()
-	sheet := file.AddSheet(sheetName)
+	sheet, err := file.AddSheet(sheetName)
+	if err != nil {
+		return nil, err
+	}
 	// add header row
 	row := sheet.AddRow()
 

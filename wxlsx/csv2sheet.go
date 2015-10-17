@@ -20,7 +20,10 @@ func ImportCSV(csvPath string, delimiter string) (*xlsx.File, error) {
 		reader.Comma = rune(',')
 	}
 	xlsxFile := xlsx.NewFile()
-	sheet := xlsxFile.AddSheet(csvPath)
+	sheet, err := xlsxFile.AddSheet(csvPath)
+	if err != nil {
+		return nil, err
+	}
 	fields, err := reader.Read()
 	for err == nil {
 		row := sheet.AddRow()

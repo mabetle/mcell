@@ -42,7 +42,10 @@ func SqlRowsToExcelWithLocale(sheetName string,
 	}
 
 	file := xlsx.NewFile()
-	sheet := file.AddSheet(sheetName)
+	sheet, err := file.AddSheet(sheetName)
+	if err != nil {
+		return nil, err
+	}
 
 	colNames, err := rows.Columns()
 	if err != nil {

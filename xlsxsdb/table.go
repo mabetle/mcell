@@ -1,7 +1,6 @@
 package xlsxsdb
 
 import (
-	"fmt"
 	"github.com/mabetle/mcell/wxlsx"
 	"github.com/mabetle/mcore/msdb"
 	"github.com/mabetle/mlog"
@@ -69,25 +68,16 @@ func GetHeader(sheet *wxlsx.Sheet) []string {
 	return colNames
 }
 
-func (t *XlsxTable) GetString(colIndex int) (result string) {
-	defer func() {
-		if err := recover(); err != nil {
-			logger.Error(err)
-			return
-		}
-	}()
-	logger.Trace("Row:", t.Cusor.RowIndex, "Col:", colIndex)
-	result = t.sheet.Rows[t.Cusor.RowIndex].Cells[colIndex].String()
-	return
+func (t *XlsxTable) GetString(colIndex int) string {
+	rowIndex := t.Cusor.RowIndex
+	return t.GetRowColString(rowIndex, colIndex)
 }
 
 // Random Access
-func (t *XlsxTable) GetRowColString(row, col int) (value string) {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println(err)
-		}
-	}()
-	value = t.sheet.Rows[row].Cells[col].String()
-	return
+func (t *XlsxTable) GetRowColString(row, col int) string {
+	// row or col exceed range.
+	if row > t.GetRows() || col > t.GetCols() {
+		return ""
+	}
+	return t.sheet.Rows[row].Cells[col].String()
 }

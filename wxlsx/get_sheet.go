@@ -24,6 +24,15 @@ func GetSheetByIndex(file string, sheetIndex int) (*Sheet, error) {
 	return NewSheet(book.Sheets[sheetIndex]), nil
 }
 
+// GetSheetNameByIndex
+func GetSheetNameByIndex(file string, index int) (string, error) {
+	sheet, err := GetSheetByIndex(file, index)
+	if err != nil {
+		return "", err
+	}
+	return sheet.Name, nil
+}
+
 // GetSheetByName
 func GetSheetByName(file string, sheetName string) (*Sheet, error) {
 	book, err := xlsx.OpenFile(file)

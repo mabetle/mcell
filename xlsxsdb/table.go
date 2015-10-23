@@ -10,20 +10,28 @@ var (
 	logger = mlog.GetLogger("github.com/mabetle/mcell/xlsxsdb")
 )
 
-//implement msdb.SimpleTable
+// XlsxTable implements msdb.SimpleTable
 type XlsxTable struct {
 	*msdb.BaseTable
 	sheet *wxlsx.Sheet
 }
 
-func NewSimpleTableBySheetName(file string, sheetName string) (msdb.SimpleTable, error) {
+// CheckSimpleTableImpl check
+func CheckSimpleTableImpl(file string, sheetName string) (msdb.SimpleTable, error) {
 	return NewXlsxTableBySheetName(file, sheetName)
 }
 
-func NewSimpleTable(file string, sheetIndex int) (msdb.SimpleTable, error) {
+// NewSimpleTableBySheetName returns XlsxTable
+func NewSimpleTableBySheetName(file string, sheetName string) (*XlsxTable, error) {
+	return NewXlsxTableBySheetName(file, sheetName)
+}
+
+// NewSimpleTable returns XlsxTable
+func NewSimpleTable(file string, sheetIndex int) (*XlsxTable, error) {
 	return NewXlsxTable(file, sheetIndex)
 }
 
+// NewXlsxTable returns XlsxTable by sheet index.
 func NewXlsxTable(file string, sheetIndex int) (*XlsxTable, error) {
 	sheet, err := wxlsx.GetSheet(file, sheetIndex)
 	if err != nil {
@@ -32,6 +40,7 @@ func NewXlsxTable(file string, sheetIndex int) (*XlsxTable, error) {
 	return NewXlsxTableBySheet(sheet)
 }
 
+// NewXlsxTableBySheetName returns XlsxTable by sheet name.
 func NewXlsxTableBySheetName(file string, sheetName string) (*XlsxTable, error) {
 	sheet, err := wxlsx.GetSheetByName(file, sheetName)
 	if err != nil {
@@ -40,6 +49,7 @@ func NewXlsxTableBySheetName(file string, sheetName string) (*XlsxTable, error) 
 	return NewXlsxTableBySheet(sheet)
 }
 
+// NewXlsxTableBySheet returns XlsxTable
 func NewXlsxTableBySheet(sheet *wxlsx.Sheet) (*XlsxTable, error) {
 	table := new(XlsxTable)
 	bt := new(msdb.BaseTable)
@@ -55,6 +65,7 @@ func NewXlsxTableBySheet(sheet *wxlsx.Sheet) (*XlsxTable, error) {
 	return table, nil
 }
 
+// GetHeader returns sheet header row
 func GetHeader(sheet *wxlsx.Sheet) []string {
 	// define a slice
 	var colNames []string
@@ -68,12 +79,13 @@ func GetHeader(sheet *wxlsx.Sheet) []string {
 	return colNames
 }
 
+// GetString return colIndex string value
 func (t *XlsxTable) GetString(colIndex int) string {
 	rowIndex := t.Cusor.RowIndex
 	return t.GetRowColString(rowIndex, colIndex)
 }
 
-// Random Access
+// GetRowColString Random Access
 func (t *XlsxTable) GetRowColString(row, col int) string {
 	// row or col exceed range.
 	if row > t.GetRows() || col > t.GetCols() {

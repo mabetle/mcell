@@ -2,6 +2,7 @@ package wxlsx
 
 import (
 	"fmt"
+
 	"github.com/tealeg/xlsx"
 )
 
@@ -22,15 +23,6 @@ func GetSheetByIndex(file string, sheetIndex int) (*Sheet, error) {
 		return nil, fmt.Errorf("Open %s index %d out of sheet index, max sheet index is %d", file, sheetIndex, sheetNums)
 	}
 	return NewSheet(book.Sheets[sheetIndex]), nil
-}
-
-// GetSheetNameByIndex
-func GetSheetNameByIndex(file string, index int) (string, error) {
-	sheet, err := GetSheetByIndex(file, index)
-	if err != nil {
-		return "", err
-	}
-	return sheet.Name, nil
 }
 
 // GetSheetByName

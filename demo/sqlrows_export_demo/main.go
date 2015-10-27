@@ -1,14 +1,14 @@
 package main
 
 import (
-	"mabetle/hub"
+	"mabetle/libs/hubs"
 	"github.com/mabetle/mcell/wxlsx"
 	"github.com/mabetle/mlog"
 )
 
 var (
 	logger = mlog.GetLogger("main")
-	sql    = hub.NewAccountApp().GetSql()
+	sql    = hubs.GetCommonSql()
 )
 
 func main() {
@@ -21,5 +21,5 @@ func main() {
 		return
 	}
 
-	f.Save("/rundata/demo.xlsx")
+	f.Save("/rundata/output/demo.xlsx")
 }

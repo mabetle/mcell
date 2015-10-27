@@ -12,10 +12,6 @@ var (
 func main() {
 	location := "../data/demo.xlsx"
 	sheet, err := wxlsx.GetSheetByIndex(location, 0)
-
-	if err != nil {
-		logger.Error(err)
-	}
-
+	logger.CheckError(err)
 	wxlsx.PrintSheet(sheet)
 }

@@ -80,7 +80,7 @@ func GetHeader(sheet *wxlsx.Sheet) []string {
 }
 
 // GetString return colIndex string value
-func (t *XlsxTable) GetString(colIndex int) string {
+func (t *XlsxTable) GetStringByIndex(colIndex int) string {
 	rowIndex := t.Cusor.RowIndex
 	return t.GetRowColString(rowIndex, colIndex)
 }

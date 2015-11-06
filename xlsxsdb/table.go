@@ -87,6 +87,17 @@ func (t *XlsxTable) GetStringByIndex(colIndex int) string {
 
 // GetRowColString Random Access
 func (t *XlsxTable) GetRowColString(row, col int) string {
+	defer func() {
+		if err := recover(); err != nil {
+			logger.Warnf("Error GetRowColValue, Row: %d, MaxRow: %d, Col: %d, MaxCol: %d, Error:%v",
+			row,
+			t.GetRows(),
+			col,
+			t.GetCols(),
+			err)
+		//	return ""
+		}
+	}()
 	// row or col exceed range.
 	if row > t.GetRows() || col > t.GetCols() {
 		return ""

@@ -13,9 +13,7 @@ func SqlRowsToExcel(sheetName string,
 	rows *sql.Rows,
 	include string,
 	exclude string) (*xlsx.File, error) {
-
 	return SqlRowsToExcelWithLocale(sheetName, "", rows, include, exclude, "", false)
-
 }
 
 // SqlRowsToLocalHeaderExcel
@@ -36,22 +34,18 @@ func SqlRowsToExcelWithLocale(sheetName string,
 	enableLocale bool) (*xlsx.File, error) {
 
 	defer rows.Close()
-
 	if sheetName == "" {
 		sheetName = "Sheet1"
 	}
-
 	file := xlsx.NewFile()
 	sheet, err := file.AddSheet(sheetName)
-	if err != nil {
+	if logger.CheckError(err) {
 		return nil, err
 	}
-
 	colNames, err := rows.Columns()
-	if err != nil {
+	if logger.CheckError(err) {
 		return nil, err
 	}
-
 	// add header
 	row := sheet.AddRow()
 	for _, colName := range colNames {
@@ -60,30 +54,23 @@ func SqlRowsToExcelWithLocale(sheetName string,
 		}
 		cell := row.AddCell()
 		// colName to locale label
-
 		if enableLocale && locale != "" {
 			colName = mmsg.GetTableColumnLabel(locale, tableName, colName)
 		}
-
 		cell.Value = colName
 	}
-
 	scanArgs := make([]interface{}, len(colNames))
 	values := make([]interface{}, len(colNames))
-
 	for i := range values {
 		scanArgs[i] = &values[i]
 	}
-
 	// add rows data
 	for rows.Next() {
 		err := rows.Scan(scanArgs...)
-		if err != nil {
+		if logger.CheckError(err) {
 			continue
 		}
-
 		row := sheet.AddRow()
-
 		index := -1
 		for _, v := range values {
 			index++
@@ -92,9 +79,17 @@ func SqlRowsToExcelWithLocale(sheetName string,
 				continue
 			}
 			cell := row.AddCell()
+			// for float
+			if d, b := v.(float64); b {
+				cell.SetFloat(d)
+				continue
+			}
+			if d, b := v.(int64); b {
+				cell.SetInt64(d)
+				continue
+			}
 			cell.SetValue(v)
 		}
 	}
-
 	return file, nil
 }

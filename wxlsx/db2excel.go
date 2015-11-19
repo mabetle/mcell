@@ -80,14 +80,15 @@ func SqlRowsToExcelWithLocale(sheetName string,
 			}
 			cell := row.AddCell()
 			// for float
-			if d, b := v.(float64); b {
-				cell.SetFloat(d)
+			fv, err := mcore.NewString(v).ToFloat64()
+			if err == nil {
+				cell.SetFloat(fv)
 				continue
 			}
-			if d, b := v.(int64); b {
-				cell.SetInt64(d)
-				continue
-			}
+			//if d, b := v.(int64); b {
+			//cell.SetInt64(d)
+			//continue
+			//}
 			cell.SetValue(v)
 		}
 	}

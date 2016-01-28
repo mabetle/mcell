@@ -1,6 +1,7 @@
 package xlsxsdb
 
 import (
+	"fmt"
 	"github.com/mabetle/mcell/wxlsx"
 	"github.com/mabetle/mcore/msdb"
 	"github.com/mabetle/mlog"
@@ -90,12 +91,12 @@ func (t *XlsxTable) GetRowColString(row, col int) string {
 	defer func() {
 		if err := recover(); err != nil {
 			logger.Warnf("Error GetRowColValue, Row: %d, MaxRow: %d, Col: %d, MaxCol: %d, Error:%v",
-			row,
-			t.GetRows(),
-			col,
-			t.GetCols(),
-			err)
-		//	return ""
+				row,
+				t.GetRows(),
+				col,
+				t.GetCols(),
+				err)
+			//	return ""
 		}
 	}()
 	// row or col exceed range.
@@ -103,4 +104,16 @@ func (t *XlsxTable) GetRowColString(row, col int) string {
 		return ""
 	}
 	return t.sheet.Rows[row].Cells[col].String()
+}
+
+func (t *XlsxTable) Print() {
+	cols := t.GetColNames()
+	row := 0
+	for t.Next() {
+		row++
+		fmt.Printf("\nRow: %d\n", row)
+		for _, col := range cols {
+			fmt.Printf("%s:%s\n", col, t.GetString(col))
+		}
+	}
 }

@@ -51,7 +51,7 @@ func (sheet *Sheet) GetRowColValue(row, col int, errDefault string) (value strin
 		return errDefault
 	}
 
-	value = cells[col].String()
+	value = cells[col].Value
 	return
 }
 
@@ -63,7 +63,7 @@ func (sheet *Sheet) GetHeaderRowValues() (vs []string) {
 	}
 
 	for _, cell := range sheet.Rows[0].Cells {
-		cv := cell.String()
+		cv := cell.Value
 		vs = append(vs, cv)
 	}
 

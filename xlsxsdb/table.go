@@ -103,7 +103,8 @@ func (t *XlsxTable) GetRowColString(row, col int) string {
 	if row > t.GetRows() || col > t.GetCols() {
 		return ""
 	}
-	return t.sheet.Rows[row].Cells[col].String()
+	// value as original
+	return t.sheet.Rows[row].Cells[col].Value
 }
 
 func (t *XlsxTable) Print() {

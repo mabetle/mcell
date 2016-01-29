@@ -36,12 +36,11 @@ func ExportCSV(excelFileName string, sheetIndex int, delimiter string, out io.Wr
 		var vals []string
 		if row != nil {
 			for _, cell := range row.Cells {
-				vals = append(vals, fmt.Sprintf("%q", cell.String()))
+				vals = append(vals, fmt.Sprintf("%q", cell.Value))
 			}
 			line := strings.Join(vals, delimiter) + "\n"
 			out.Write([]byte(line))
 		}
 	}
-
 	return nil
 }

@@ -17,7 +17,8 @@ func PrintSheet(sheet *Sheet) {
 		//rows
 		for _, cell := range row.Cells {
 			//col
-			fmt.Printf("%s\t", cell.String())
+			cellStr, _ := cell.String()
+			fmt.Printf("%s \t", cellStr)
 		}
 		fmt.Println()
 	}

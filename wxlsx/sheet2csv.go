@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// ExportCSV
+// ExportCSV export
 func ExportCSV(excelFileName string, sheetIndex int, delimiter string, out io.Writer) error {
 
 	xlFile, error := xlsx.OpenFile(excelFileName)

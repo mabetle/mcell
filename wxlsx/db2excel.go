@@ -7,7 +7,7 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-// SqlRowsToExcel
+// SqlRowsToExcel sql rows to excel
 // disable locale
 func SqlRowsToExcel(sheetName string,
 	rows *sql.Rows,
@@ -16,7 +16,7 @@ func SqlRowsToExcel(sheetName string,
 	return SqlRowsToExcelWithLocale(sheetName, "", rows, include, exclude, "", false)
 }
 
-// SqlRowsToLocalHeaderExcel
+// SqlRowsToExcelWithLocale sql rows to excel
 // Locale message, table column name.
 // params:
 //	sheetName

@@ -6,12 +6,12 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-// same as GetSheetByIndex
+// GetSheet same as GetSheetByIndex
 func GetSheet(file string, sheetIndex int) (*Sheet, error) {
 	return GetSheetByIndex(file, sheetIndex)
 }
 
-// GetSheetByIndex
+// GetSheetByIndex returns Sheet
 // index from 0
 func GetSheetByIndex(file string, sheetIndex int) (*Sheet, error) {
 	book, err := xlsx.OpenFile(file)
@@ -25,7 +25,7 @@ func GetSheetByIndex(file string, sheetIndex int) (*Sheet, error) {
 	return NewSheet(book.Sheets[sheetIndex]), nil
 }
 
-// GetSheetByName
+// GetSheetByName returns Sheet
 func GetSheetByName(file string, sheetName string) (*Sheet, error) {
 	book, err := xlsx.OpenFile(file)
 	if nil != err {

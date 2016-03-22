@@ -5,25 +5,26 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
+// Sheet define sheet
 type Sheet struct {
 	*xlsx.Sheet
 }
 
-// NewSheet
+// NewSheet create Sheet
 func NewSheet(sheet *xlsx.Sheet) *Sheet {
 	return &Sheet{Sheet: sheet}
 }
 
-// GetCellValue
+// GetCellValue returns cell value
 func (s *Sheet) GetCellValue(cell string) (value string) {
 	row, col := GetRowColIndex(cell)
 	value = s.GetRowColValue(row, col, "")
 	return
 }
 
-// GetRowColValue
+// GetRowColValue returns row col value
 // process out of index error
-func (sheet *Sheet) GetRowColValue(row, col int, errDefault string) (value string) {
+func (s *Sheet) GetRowColValue(row, col int, errDefault string) (value string) {
 	// process error
 	// index out of range
 	defer func() {
@@ -33,7 +34,7 @@ func (sheet *Sheet) GetRowColValue(row, col int, errDefault string) (value strin
 		}
 	}()
 
-	rows := sheet.Rows
+	rows := s.Rows
 
 	// invalid row and col
 	if row < 0 || col < 0 {
@@ -45,7 +46,7 @@ func (sheet *Sheet) GetRowColValue(row, col int, errDefault string) (value strin
 		logger.Tracef("row %d exceed range rows %d .", row, len(rows))
 		return errDefault
 	}
-	cells := sheet.Rows[row].Cells
+	cells := s.Rows[row].Cells
 	if col > len(cells) {
 		logger.Tracef("col %d exceed range columns %d .", col, len(cells))
 		return errDefault
@@ -55,14 +56,14 @@ func (sheet *Sheet) GetRowColValue(row, col int, errDefault string) (value strin
 	return
 }
 
-// GetHeaderRowValues
-func (sheet *Sheet) GetHeaderRowValues() (vs []string) {
-	if sheet.MaxRow < 1 {
+// GetHeaderRowValues return header row values
+func (s *Sheet) GetHeaderRowValues() (vs []string) {
+	if s.MaxRow < 1 {
 		// no header row
 		return
 	}
 
-	for _, cell := range sheet.Rows[0].Cells {
+	for _, cell := range s.Rows[0].Cells {
 		cv := cell.Value
 		vs = append(vs, cv)
 	}
@@ -70,10 +71,10 @@ func (sheet *Sheet) GetHeaderRowValues() (vs []string) {
 	return
 }
 
-// GetColNameIndex
+// GetColNameIndex returns colname index
 // -1 means not found.
-func (sheet *Sheet) GetColNameIndex(colName string) int {
-	names := sheet.GetHeaderRowValues()
+func (s *Sheet) GetColNameIndex(colName string) int {
+	names := s.GetHeaderRowValues()
 	for i, name := range names {
 		if mcore.NewString(colName).IsEqualIgnoreCase(name) {
 			return i
@@ -82,20 +83,20 @@ func (sheet *Sheet) GetColNameIndex(colName string) int {
 	return -1
 }
 
-// GetCellValueByRowIndexColName
-func (sheet *Sheet) GetCellValueByRowIndexColName(rowIndex int, colName string) string {
-	colIndex := sheet.GetColNameIndex(colName)
-	return sheet.GetRowColValue(rowIndex, colIndex, "")
+// GetCellValueByRowIndexColName returns cell value
+func (s *Sheet) GetCellValueByRowIndexColName(rowIndex int, colName string) string {
+	colIndex := s.GetColNameIndex(colName)
+	return s.GetRowColValue(rowIndex, colIndex, "")
 }
 
-// GetCellFloat64ByRowIndexColName
-func (sheet *Sheet) GetCellFloat64ByRowIndexColName(rowIndex int, colName string) float64 {
-	v := sheet.GetCellValueByRowIndexColName(rowIndex, colName)
+// GetCellFloat64ByRowIndexColName return cell float value
+func (s *Sheet) GetCellFloat64ByRowIndexColName(rowIndex int, colName string) float64 {
+	v := s.GetCellValueByRowIndexColName(rowIndex, colName)
 	return mcore.NewString(v).ToFloat64NoError()
 }
 
-// GetCellIntByRowIndexColName
-func (sheet *Sheet) GetCellIntByRowIndexColName(rowIndex int, colName string) int {
-	v := sheet.GetCellValueByRowIndexColName(rowIndex, colName)
+// GetCellIntByRowIndexColName return cell int value
+func (s *Sheet) GetCellIntByRowIndexColName(rowIndex int, colName string) int {
+	v := s.GetCellValueByRowIndexColName(rowIndex, colName)
 	return mcore.NewString(v).ToIntNoError()
 }

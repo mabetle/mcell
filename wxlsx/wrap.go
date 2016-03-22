@@ -9,7 +9,7 @@ func OpenBook(location string) (*xlsx.File, error) {
 	return xlsx.OpenFile(location)
 }
 
-// GetCellValue returns excel row col value
+// GetRowColValue returns excel row col value
 // parameters: location sheetname, row,col
 func GetRowColValue(location, sheetName string, row, col int, errDefault string) string {
 	sheet, err := GetSheetByName(location, sheetName)

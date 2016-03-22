@@ -12,7 +12,7 @@ import (
 	go get -u -v github.com/tealeg/xlsx
 */
 
-// WriteData
+// ArrayToExcel write data
 func ArrayToExcel(sheetName string, data [][]string) (*xlsx.File, error) {
 	if sheetName == "" {
 		sheetName = "Sheet1"
@@ -35,16 +35,17 @@ func ArrayToExcel(sheetName string, data [][]string) (*xlsx.File, error) {
 	return file, nil
 }
 
+// GetMapKeys return map keys
 func GetMapKeys(m map[string]interface{}) (keys []string) {
-	for k, _ := range m {
+	for k := range m {
 		keys = append(keys, k)
 	}
 	return
 }
 
-// JsonToExcel
+// JSONToExcel define values
 // jsData should contain a array
-func JsonToExcel(
+func JSONToExcel(
 	sheetName string,
 	jsData []byte,
 	include string,

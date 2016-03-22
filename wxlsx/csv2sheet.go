@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-// ImportCSV
+// ImportCSV func
 func ImportCSV(csvPath string, delimiter string) (*xlsx.File, error) {
 	csvFile, err := os.Open(csvPath)
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-// ValueToExcel
+// ValueToExcel value to excel
 func ValueToExcel(sheetName string,
 	rows interface{},
 	include string,
@@ -17,7 +17,7 @@ func ValueToExcel(sheetName string,
 	return ValueToExcelWithLocale(sheetName, rows, include, exclude, "", false)
 }
 
-// ValueToExcelWithLocale
+// ValueToExcelWithLocale value to excel with locale
 // rows should be slice type.
 func ValueToExcelWithLocale(sheetName string,
 	rows interface{},

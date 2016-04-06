@@ -73,7 +73,7 @@ func GetHeader(sheet *wxlsx.Sheet) []string {
 	cells := sheet.Rows[0].Cells
 	cols := len(cells)
 	for col := 0; col < cols; col++ {
-		colName := cells[col].String()
+		colName, _ := cells[col].String()
 		colNames = append(colNames, colName)
 	}
 	//	sheet.Rows[0]

@@ -32,6 +32,15 @@ func NewSimpleTable(file string, sheetIndex int) (*XlsxTable, error) {
 	return NewXlsxTable(file, sheetIndex)
 }
 
+// NewSimpleTableFromByteArray creates XlsxTable
+func NewSimpleTableFromByteArray(data []byte, sheetIndex int) (*XlsxTable, error) {
+	sheet, err := wxlsx.GetSheetFromByteArray(data, sheetIndex)
+	if err != nil {
+		return nil, err
+	}
+	return NewXlsxTableBySheet(sheet)
+}
+
 // NewXlsxTable returns XlsxTable by sheet index.
 func NewXlsxTable(file string, sheetIndex int) (*XlsxTable, error) {
 	sheet, err := wxlsx.GetSheet(file, sheetIndex)
